@@ -5,6 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { Task } from "./constants/definitions";
+export { Task } from "./constants/definitions";
 export namespace Components {
     interface MyComponent {
         /**
@@ -20,6 +22,13 @@ export namespace Components {
          */
         "middle": string;
     }
+    interface TodoItem {
+        "deleteAction": (task: Task) => void;
+        "task": Task;
+        "toggleAction": (taskId: string) => void;
+    }
+    interface TodoList {
+    }
 }
 declare global {
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
@@ -28,8 +37,22 @@ declare global {
         prototype: HTMLMyComponentElement;
         new (): HTMLMyComponentElement;
     };
+    interface HTMLTodoItemElement extends Components.TodoItem, HTMLStencilElement {
+    }
+    var HTMLTodoItemElement: {
+        prototype: HTMLTodoItemElement;
+        new (): HTMLTodoItemElement;
+    };
+    interface HTMLTodoListElement extends Components.TodoList, HTMLStencilElement {
+    }
+    var HTMLTodoListElement: {
+        prototype: HTMLTodoListElement;
+        new (): HTMLTodoListElement;
+    };
     interface HTMLElementTagNameMap {
         "my-component": HTMLMyComponentElement;
+        "todo-item": HTMLTodoItemElement;
+        "todo-list": HTMLTodoListElement;
     }
 }
 declare namespace LocalJSX {
@@ -47,8 +70,17 @@ declare namespace LocalJSX {
          */
         "middle"?: string;
     }
+    interface TodoItem {
+        "deleteAction"?: (task: Task) => void;
+        "task"?: Task;
+        "toggleAction"?: (taskId: string) => void;
+    }
+    interface TodoList {
+    }
     interface IntrinsicElements {
         "my-component": MyComponent;
+        "todo-item": TodoItem;
+        "todo-list": TodoList;
     }
 }
 export { LocalJSX as JSX };
@@ -56,6 +88,8 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "todo-item": LocalJSX.TodoItem & JSXBase.HTMLAttributes<HTMLTodoItemElement>;
+            "todo-list": LocalJSX.TodoList & JSXBase.HTMLAttributes<HTMLTodoListElement>;
         }
     }
 }
